@@ -111,14 +111,14 @@ mkdir -p "$INPUT_DIR" "$OUTPUT_DIR" "$FAILED_DIR" "$DUPLICATE_DIR"
 # --- 1. Process all existing files on startup ---
 log "--- Processing existing files in $INPUT_DIR ---"
 # Use find with -print0 and read with -d '' to safely handle all filenames.
-find "$INPUT_DIR" -type f -print0 | while IFS= read -r -d '' FILE; do
+find "$INPUT_DIR" -type f -not -path '*/.syncthing.*.tmp' -print0 | while IFS= read -r -d '' FILE; do
     process_file "$FILE"
 done
 log "--- Finished processing existing files ---"
 
 # --- 2. Watch for new files ---
 log "--- Watching for new file events in $INPUT_DIR ---"
-inotifywait -m -r -e close_write -e moved_to --format '%w%f' "$INPUT_DIR" | while read -r FILE; do
+inotifywait -m -r -e close_write -e moved_to --format '%w%f' --exclude '^\.syncthing\..*\.tmp$' "$INPUT_DIR" | while read -r FILE; do
     log "---------------------------------"
     log "INFO: File event detected: $FILE"
     sleep 1 # Brief pause to ensure file is fully written and stable
