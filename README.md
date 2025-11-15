@@ -84,11 +84,30 @@ This method is for users who want to modify the sorting logic (e.g., change the 
 
 **Step 1: Get the Project Files**
 
-Download and unzip the project files from the GitHub repository onto your server.
+You can get the project files onto your server using one of the following methods:
 
-1.  Go to the project's GitHub page: [https://github.com/golfhou/photosorter](https://github.com/golfhou/photosorter)
-2.  Click the green **`< > Code`** button and select **"Download ZIP"**.
-3.  Unzip the file on your server. This will create a `photosorter-main` folder containing all the project files.
+*   **Using Git (Recommended for advanced users)**: If you have Git installed, you can clone the repository:
+    ```bash
+    git clone https://github.com/golfhou/photosorter.git
+    cd photosorter
+    ```
+    This will create a `photosorter` folder containing all the project files.
+
+*   **Using `wget` or `curl` (for command-line download)**: If you don't have Git but are comfortable with the command line, you can download the ZIP archive:
+    ```bash
+    wget https://github.com/golfhou/photosorter/archive/refs/heads/main.zip -O photosorter.zip
+    # Or using curl:
+    # curl -L https://github.com/golfhou/photosorter/archive/refs/heads/main.zip -o photosorter.zip
+    unzip photosorter.zip
+    mv photosorter-main photosorter # Rename the unzipped folder
+    cd photosorter
+    ```
+    This will create a `photosorter` folder containing all the project files.
+
+*   **Manual Download (for GUI users)**:
+    1.  Go to the project's GitHub page: [https://github.com/golfhou/photosorter](https://github.com/golfhou/photosorter)
+    2.  Click the green **`< > Code`** button and select **"Download ZIP"**.
+    3.  Unzip the file on your server. This will create a `photosorter-main` folder containing all the project files. Rename it to `photosorter` for consistency.
 
 **Step 2: Customize (Optional)**
 
