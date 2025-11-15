@@ -54,6 +54,72 @@ It's designed to be a "set it and forget it" solution for keeping your media lib
     ```
     The service will now start and begin processing any existing files in your `INPUT_DIR`, then continue to watch for new ones.
 
+## Beginner's Installation Guide
+
+If you are new to Docker or Git, this guide will walk you through the entire setup process from start to finish.
+
+### Step 1: Get the Project Files
+
+First, you need to download the project files onto the server where you plan to run the sorter (e.g., your Unraid server).
+
+1.  Go to the project's GitHub page: [https://github.com/golfhou/photosorter](https://github.com/golfhou/photosorter)
+2.  Click the green **`< > Code`** button.
+3.  In the dropdown menu, click **"Download ZIP"**.
+4.  Unzip the downloaded file (`photosorter-main.zip`) into a location of your choice on your server. This will create a folder named `photosorter-main` which contains all the necessary files (`docker-compose.yml`, `Dockerfile`, etc.).
+
+### Step 2: Install Docker
+
+This service runs in a Docker container, so you need to have Docker and Docker Compose installed.
+
+*   **For Unraid users**: Docker and Docker Compose are already built into the Unraid operating system, so you can skip this step!
+*   **For other Linux users (like Debian, Ubuntu, CentOS)**: The best way to install is to follow the official guides, as the commands can vary.
+    *   [Install Docker Engine](https://docs.docker.com/engine/install/#server) (select your OS from the list)
+    *   [Install Docker Compose](https://docs.docker.com/compose/install/)
+
+### Step 3: Configure the Sorter
+
+This is the most important step. You need to tell the sorter where your photo directories are.
+
+1.  Navigate into the `photosorter-main` folder you unzipped earlier.
+2.  Open the `docker-compose.yml` file with a text editor.
+3.  You need to edit the `volumes` and `environment` sections to match your server's folder structure.
+
+    ```yaml
+    services:
+      photosorter:
+        build: .
+        # ... (other settings) ...
+        volumes:
+          # CHANGE THIS LINE:
+          # Replace '/path/on/your/host' with the path to your main photos folder.
+          - /path/on/your/host:/media
+        environment:
+          # These should be sub-folders inside the path you mounted above.
+          - OUTPUT_DIR=/media/ALL_PHOTOS
+          - INPUT_DIR=/media/new_uploads
+    ```
+
+    For example, if all your photos are stored in `/mnt/user/MyMedia/`, you would change the `volumes` line to:
+    `- /mnt/user/MyMedia:/media`
+
+    In this example, the sorter will watch for new files in `/mnt/user/MyMedia/new_uploads` and move them into `/mnt/user/MyMedia/ALL_PHOTOS`. Make sure the `new_uploads` folder exists.
+
+### Step 4: Run the Service
+
+1.  Open a terminal on your server.
+2.  Navigate to the `photosorter-main` directory where your `docker-compose.yml` file is located.
+3.  Run the following command:
+    ```bash
+    docker-compose up -d --build
+    ```
+4.  **Check the Logs**: To see if the sorter is working correctly and processing your files, you can view its logs in real-time:
+    ```bash
+    docker-compose logs -f photosorter
+    ```
+    You should see messages indicating files being processed, moved, or handled as duplicates/failed sorts. Press `Ctrl+C` to exit the log view.
+
+That's it! The photo sorter will now start, build the necessary container, and begin watching your `INPUT_DIR` for new files.
+
 ## Development Notes
 
 This project went through several debugging steps to ensure it was robust and reliable. Key procedures included:
