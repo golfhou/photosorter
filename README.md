@@ -54,6 +54,16 @@ It's designed to be a "set it and forget it" solution for keeping your media lib
     ```
     The service will now start and begin processing any existing files in your `INPUT_DIR`, then continue to watch for new ones.
 
+## Development Notes
+
+This project went through several debugging steps to ensure it was robust and reliable. Key procedures included:
+
+*   **Verifying Docker Networking**: When the Docker build failed to download packages, we confirmed the host's Docker networking was functional by running an interactive container (`docker run --rm -it alpine:3.18 sh`) and successfully running `apk update` inside it. This isolated the problem to the `docker build` process itself.
+
+*   **Manual Package Installation**: To identify the correct package names for `exiftool` on Alpine Linux, we manually ran `apk add ...` commands inside an interactive container until the correct packages (`perl-image-exiftool` and `exiftool`) were found.
+
+*   **Shell Script Debugging**: To diagnose a silent crash in the `sort.sh` script, we temporarily added `set -x` to the top of the script. This enabled debug tracing, which printed every command to the log and allowed us to pinpoint the exact line causing the failure.
+
 ## Acknowledgments
 
 This project makes use of the following excellent open-source tools:
