@@ -1,0 +1,33 @@
+# Gitignore for Docker/Shell Project
+
+# Docker
+Dockerfile.bak
+*.dockerignore
+.dockerignore
+
+# Build artifacts
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.*
+
+# IDE-specific files
+.idea/
+.vscode/
+*.iml
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Binaries/Executables (if any were built)
+*.exe
+*.bin
+
+# Docker Compose specific
+docker-compose.override.yml

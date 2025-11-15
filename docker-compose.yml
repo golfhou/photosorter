@@ -1,0 +1,18 @@
+services:
+  photosorter:
+    build: .
+    container_name: photosorter
+    volumes:
+      # Mount your main photos directory here.
+      # The INPUT and OUTPUT directories will be created inside this mount.
+      - /path/to/your/media/folder:/media
+    environment:
+      # Directory for sorted photos (e.g., /media/ALL_PHOTOS/2025/11) - This could be your Immish external library
+      - OUTPUT_DIR=/media/ALL_PHOTOS
+      # Directory to watch for new files to sort - Also could be the syncthing folder that your phone sends the media to.
+      - INPUT_DIR=/media/new_uploads
+      # Optional: Directory for files that fail to sort - For manual review
+      - FAILED_DIR=/media/ALL_PHOTOS/failed_sort
+      # Optional: Directory for duplicate files - Immish should pick duplicates as well, that live inside this folder.
+      - DUPLICATE_DIR=/media/ALL_PHOTOS/duplicates
+    restart: unless-stopped
