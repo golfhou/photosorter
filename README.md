@@ -64,6 +64,16 @@ This project went through several debugging steps to ensure it was robust and re
 
 *   **Shell Script Debugging**: To diagnose a silent crash in the `sort.sh` script, we temporarily added `set -x` to the top of the script. This enabled debug tracing, which printed every command to the log and allowed us to pinpoint the exact line causing the failure.
 
+## Original Use Case
+
+This project was initially developed to serve as a robust media ingestion and organization layer within a home lab environment, specifically tailored for:
+
+*   **Unraid**: Running the Docker container on an Unraid server provides a stable and always-on platform for media processing. Volumes are mapped directly to Unraid shares, allowing seamless access to media storage.
+*   **Syncthing**: Files are initially synced from various devices (e.g., mobile phones, cameras) into the `INPUT_DIR` (e.g., `/media/new_uploads`) using Syncthing. This ensures that new media is automatically transferred to the server.
+*   **Immich**: Once sorted into the `OUTPUT_DIR` (e.g., `/media/ALL_PHOTOS`), this organized folder structure is ideal for use as an **external library** in media management applications like Immich. 
+
+This setup creates a fully automated pipeline for external media: New files from various sources -> Syncthing -> Photo Sorter -> Organized External Library -> Immich.
+
 ## Acknowledgments
 
 This project makes use of the following excellent open-source tools:
